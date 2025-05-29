@@ -1,7 +1,8 @@
 import MetaSearchAgent from '@/lib/search/metaSearchAgent';
+import CopilotSearchAgent from '@/lib/search/copilotSearchAgent';
 import prompts from '../prompts';
 
-export const searchHandlers: Record<string, MetaSearchAgent> = {
+export const searchHandlers: Record<string, MetaSearchAgent | CopilotSearchAgent> = {
   webSearch: new MetaSearchAgent({
     activeEngines: [],
     queryGeneratorPrompt: prompts.webSearchRetrieverPrompt,
@@ -10,6 +11,12 @@ export const searchHandlers: Record<string, MetaSearchAgent> = {
     rerankThreshold: 0.3,
     searchWeb: true,
     summarizer: true,
+  }),
+  copilot: new CopilotSearchAgent({
+    maxQueries: 5,
+    maxSourcesPerQuery: 8,
+    rerankThreshold: 0.3,
+    enablePageExtraction: true,
   }),
   academicSearch: new MetaSearchAgent({
     activeEngines: ['arxiv', 'google scholar', 'pubmed'],

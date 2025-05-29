@@ -18,7 +18,7 @@ const EmptyChatMessageInput = ({
   files,
   setFiles,
 }: {
-  sendMessage: (message: string) => void;
+  sendMessage: (message: string, messageId?: string, copilotEnabled?: boolean) => void;
   focusMode: string;
   setFocusMode: (mode: string) => void;
   optimizationMode: string;
@@ -61,13 +61,13 @@ const EmptyChatMessageInput = ({
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        sendMessage(message);
+        sendMessage(message, undefined, copilotEnabled);
         setMessage('');
       }}
       onKeyDown={(e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
-          sendMessage(message);
+          sendMessage(message, undefined, copilotEnabled);
           setMessage('');
         }
       }}
@@ -85,6 +85,10 @@ const EmptyChatMessageInput = ({
         <div className="flex flex-row items-center justify-between mt-4">
           <div className="flex flex-row items-center space-x-2 lg:space-x-4">
             <Focus focusMode={focusMode} setFocusMode={setFocusMode} />
+            <CopilotToggle
+              copilotEnabled={copilotEnabled}
+              setCopilotEnabled={setCopilotEnabled}
+            />
             <Attach
               fileIds={fileIds}
               setFileIds={setFileIds}

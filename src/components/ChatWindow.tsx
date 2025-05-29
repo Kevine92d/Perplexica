@@ -327,7 +327,7 @@ const ChatWindow = ({ id }: { id?: string }) => {
     }
   }, [isMessagesLoaded, isConfigReady]);
 
-  const sendMessage = async (message: string, messageId?: string) => {
+  const sendMessage = async (message: string, messageId?: string, copilotEnabled?: boolean) => {
     if (loading) return;
     if (!isConfigReady) {
       toast.error('Cannot send message before the configuration is ready');
@@ -472,6 +472,7 @@ const ChatWindow = ({ id }: { id?: string }) => {
         focusMode: focusMode,
         optimizationMode: optimizationMode,
         history: chatHistory,
+        copilotEnabled: copilotEnabled || false,
         chatModel: {
           name: chatModelProvider.name,
           provider: chatModelProvider.provider,

@@ -15,7 +15,7 @@ const MessageInput = ({
   files,
   setFiles,
 }: {
-  sendMessage: (message: string) => void;
+  sendMessage: (message: string, messageId?: string, copilotEnabled?: boolean) => void;
   loading: boolean;
   fileIds: string[];
   setFileIds: (fileIds: string[]) => void;
@@ -64,13 +64,13 @@ const MessageInput = ({
       onSubmit={(e) => {
         if (loading) return;
         e.preventDefault();
-        sendMessage(message);
+        sendMessage(message, undefined, copilotEnabled);
         setMessage('');
       }}
       onKeyDown={(e) => {
         if (e.key === 'Enter' && !e.shiftKey && !loading) {
           e.preventDefault();
-          sendMessage(message);
+          sendMessage(message, undefined, copilotEnabled);
           setMessage('');
         }
       }}

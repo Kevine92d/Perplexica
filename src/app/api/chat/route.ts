@@ -45,6 +45,7 @@ type Body = {
   message: Message;
   optimizationMode: 'speed' | 'balanced' | 'quality';
   focusMode: string;
+  copilotEnabled?: boolean;
   history: Array<[string, string]>;
   files: Array<string>;
   chatModel: ChatModel;
@@ -261,7 +262,9 @@ export const POST = async (req: Request) => {
       }
     });
 
-    const handler = searchHandlers[body.focusMode];
+    // Choose the appropriate handler based on copilot setting
+    const selectedFocusMode = body.copilotEnabled ? 'copilot' : body.focusMode;
+    const handler = searchHandlers[selectedFocusMode];
 
     if (!handler) {
       return Response.json(
@@ -287,7 +290,7 @@ export const POST = async (req: Request) => {
     const encoder = new TextEncoder();
 
     handleEmitterEvents(stream, writer, encoder, aiMessageId, message.chatId);
-    handleHistorySave(message, humanMessageId, body.focusMode, body.files);
+    handleHistorySave(message, humanMessageId, selectedFocusMode, body.files);
 
     return new Response(responseStream.readable, {
       headers: {
